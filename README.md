@@ -1,9 +1,15 @@
 # ob_HIIR
 
-Provides a wrapper class to easily make use of Laurent DeSoras' HIIR library for oversampling in JUCE projects
+Provides a wrapper class to easily make use of Laurent DeSoras' HIIR library for oversampling in JUCE projects.
 
-### Usage
+## Why ob_HIIR?
+
+The ob_ prefix refers to the obLib library used internally by [Oblique Audio](https://oblique-audio.com/). This portion of the code shared here is for the benefit of the JUCE community, and is shared without warranty.
+
+## Usage
+
 (Example based on JUCE::AudioProcessor)
+
 - Instantiate class as a private member variable in an AudioProcessor
 - Call prepare() from AudioProcessor::prepareToPlay()
 - In AudioProcessor::processBlock():
@@ -12,16 +18,16 @@ Provides a wrapper class to easily make use of Laurent DeSoras' HIIR library for
   - Access oversampled data using getOversampledData()
   - Call downSample() as required
 
-### Notes
-- The class manages all the filter stages and state data internally. Please note that the state is re-initialised each time prepare() is called
+## Notes
 
+- The class manages all the filter stages and state data internally. Please note that the state is re-initialised each time prepare() is called
 - The number of channels can be altered at each call to prepare()
 - The first stage filter is a polyphase IIR with 13 coefficients and a transition bandwidth of 0.01*Fs and 113.4dB of attenuation (110dB specified in design)
-  - Subsequent filter stages have 4 coefficients and a transition bandwidth of 0.255*Fs and 118.5dB of attenuation (110dB specified in design)
+- Subsequent filter stages have 4 coefficients and a transition bandwidth of 0.255*Fs and 118.5dB of attenuation (110dB specified in design)
 - Oversampling factors must be a power of 2
 - Float arrays should be 16 byte aligned for most efficient SSE processing
 
-==============================================================================
+
 
 ## From the readme.txt for HIIR
 
