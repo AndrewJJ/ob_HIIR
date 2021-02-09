@@ -2,6 +2,8 @@
 
 Provides a wrapper class to easily make use of Laurent DeSoras' HIIR library for oversampling in JUCE projects.
 
+This implementation predates the oversampling library now implemented in JUCE::dsp and efficiently implements SSE instructions thanks to Laurent's genius.
+
 ## Why ob_HIIR?
 
 The ob_ prefix refers to the obLib library used internally by [Oblique Audio](https://oblique-audio.com/). This portion of the code shared here is for the benefit of the JUCE community, and is shared without warranty.
@@ -24,6 +26,7 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
 - The number of channels can be altered at each call to prepare()
 - The first stage filter is a polyphase IIR with 13 coefficients and a transition bandwidth of 0.01*Fs and 113.4dB of attenuation (110dB specified in design)
 - Subsequent filter stages have 4 coefficients and a transition bandwidth of 0.255*Fs and 118.5dB of attenuation (110dB specified in design)
+- The above parameters have been chosen according to the taste of Oblique Audio, if you want to design the filters differently then use different parameters in HIIR::initCoeffs() in ob_HIIR.cpp and adjust the coefficent and vector definitions in ob_HIIR.h.
 - Oversampling factors must be a power of 2
 - Float arrays should be 16 byte aligned for most efficient SSE processing
 
