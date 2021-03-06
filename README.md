@@ -19,6 +19,7 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
   - Call upSample() as required
   - Access oversampled data using getOversampledData()
   - Call downSample() as required
+- If compiling with an architecture that does not support SSE2, then #define OB_SSE_NOT_SUPPORTED 1
 
 ## Notes
 

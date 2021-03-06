@@ -158,7 +158,7 @@ namespace General {
 		{
 			jassert (length > 0);
 			clear ();
-			#ifndef ICSTLIB_NO_SSEOPT 	
+			#ifndef OB_SSE_NOT_SUPPORTED	
 			data = reinterpret_cast<ElementType*>(_mm_malloc (length*sizeof (ElementType), alignment));
 			#else
 			data = reinterpret_cast<ElementType*>(malloc (length*sizeof (ElementType)));
@@ -201,7 +201,7 @@ namespace General {
 		void clear ()
 		{
 			if (data != nullptr)
-				#ifndef ICSTLIB_NO_SSEOPT 	
+				#ifndef OB_SSE_NOT_SUPPORTED
 				_mm_free (data);
 				#else
 				free (data);
@@ -289,7 +289,7 @@ namespace General {
 				myLength = length;
 				data = new ElementType*[myNumRows];
 				for (int row = 0; row < myNumRows; ++row)
-					#ifndef ICSTLIB_NO_SSEOPT 	
+					#ifndef OB_SSE_NOT_SUPPORTED
 					data[row] = reinterpret_cast<ElementType*>(_mm_malloc (length*sizeof (ElementType), alignment));
 					#else
 					data[row] = reinterpret_cast<ElementType*>(malloc (length*sizeof (ElementType)));
@@ -325,7 +325,7 @@ namespace General {
 		{
 			if (myNumRows>0)
 				for (int row = 0; row < myNumRows; ++row)
-					#ifndef ICSTLIB_NO_SSEOPT 	
+					#ifndef OB_SSE_NOT_SUPPORTED
 					_mm_free (data[row]);
 					#else
 					free (data[row]);

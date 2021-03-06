@@ -492,7 +492,7 @@ private:
 	/** Initialises coefficients for 1st and Nth stage IIR filters. */
 	void initCoeffs();
 
-#ifndef ICSTLIB_NO_SSEOPT // i.e. if SSE is supported
+#ifndef OB_SSE_NOT_SUPPORTED // i.e. if SSE is supported
 	// Number of array elements depends on number of channels
 	std::vector < hiir::Upsampler2xSse<13>,	  General::aligned_allocator < hiir::Upsampler2xSse<13>,   16 > >	firstStageUpsamplers;
 	std::vector < hiir::Downsampler2xSse<13>, General::aligned_allocator < hiir::Downsampler2xSse<13>, 16 > >	lastStageDownsamplers;
