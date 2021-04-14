@@ -5,7 +5,10 @@
 	@file ob_DataStructures.h
 */
 
+#pragma once
+
 #include "JuceHeader.h"
+#include <atomic>
 #ifdef JUCE_CLANG
 #include <mm_malloc.h>
 #endif
@@ -28,9 +31,9 @@ namespace General {
 		}
 
 		/** Constructor. */
-		DataArray (const int size,							/**< Number of elements in the array. */
-				   const bool initialiseToZero = false		/**< Set this to initialise elements to zero (initialises to false if T is bool). */
-				  )
+        explicit DataArray (const int size,							/**< Number of elements in the array. */
+                            const bool initialiseToZero = false		/**< Set this to initialise elements to zero (initialises to false if T is bool). */
+                           )
 		{
 			data = HeapBlock<ElementType> ();
 			setSize (size, initialiseToZero);
@@ -99,7 +102,7 @@ namespace General {
 	};
 	
 	/** A one dimensional array of aligned simple data types. Typically used for audio sample buffers aligned for SSE or AVX operations.
-		Not threadsafe. Memory is not initialised when allocated.
+		Not thread safe. Memory is not initialised when allocated.
 	 */
 	template <	class ElementType,			/**< Simple data type - only float, double & int are supported. */
 				int alignment				/**< Byte alignment (16 for SSE, 32 for AVX). */
@@ -147,8 +150,8 @@ namespace General {
 		}
 
 		/** Return the length. */
-		int getLength ()
-		{
+		int getLength() const
+        {
 			jassert (myLength > 0);
 			return myLength;
 		}
@@ -158,7 +161,7 @@ namespace General {
 		{
 			jassert (length > 0);
 			clear ();
-			#ifndef OB_SSE_NOT_SUPPORTED	
+			#ifndef OB_SSE_NOT_SUPPORTED
 			data = reinterpret_cast<ElementType*>(_mm_malloc (length*sizeof (ElementType), alignment));
 			#else
 			data = reinterpret_cast<ElementType*>(malloc (length*sizeof (ElementType)));
@@ -181,8 +184,6 @@ namespace General {
 			ElementType checkType;
 			ValidateType (checkType);
 
-			#include "modules/ob_Warnings/Disable_ConditionalExpressionIsConstant.h"
-						 
 			#if JUCE_MSVC
 				#pragma warning (push)
 				#pragma warning (disable: 4127) // conditional expression is constant warning
@@ -197,7 +198,7 @@ namespace General {
 			myLength = -1;
 		}
 
-		/** Deallocates all memory. */
+		/** De-allocates all memory. */
 		void clear ()
 		{
 			if (data != nullptr)
@@ -214,7 +215,7 @@ namespace General {
 	};
 
 	/**	A two dimensional array of aligned simple data types. All of the rows have the same length (i.e. the array is rectangular).
-		Typically used for audio sample buffers aligned for SSE or AVX operations. Not threadsafe. Memory is not initialised when allocated.
+		Typically used for audio sample buffers aligned for SSE or AVX operations. Not thread safe. Memory is not initialised when allocated.
 	*/
 	template <	class ElementType,			/**< Simple data type - only float, double & int are supported. */
 				int alignment				/**< Byte alignment (16 for SSE, 32 for AVX). */
@@ -263,14 +264,14 @@ namespace General {
 		}
 
 		/** Return the number of rows allocated. */
-		int getNumRows ()
+		int getNumRows() const
 		{
 			jassert (myNumRows > 0);
 			return myNumRows;
 		}
 
 		/** Return the row length. */
-		int getLength ()
+		int getLength() const
 		{
 			jassert (myNumRows > 0);
 			return myLength;
