@@ -1,9 +1,10 @@
-#ifndef __ob_Memory__
-#define __ob_Memory__
-
 /**
 @file ob_Memory.h
 */
+
+#pragma once
+
+#include <stdexcept>    // std::length_error
 
 namespace ob {
 namespace General {
@@ -45,7 +46,7 @@ namespace General {
 			return &s;
 		}
 
-		std::size_t max_size () const
+		std::size_t max_size() const
 		{
 			// The following has been carefully written to be independent of
 			// the definition of size_t and to avoid signed/unsigned warnings.
@@ -74,7 +75,7 @@ namespace General {
 
 		void destroy (T * const p) const
 		{
-			p->~T ();
+			p->~T();
 		}
 
 		// Returns true if and only if storage allocated from *this
@@ -88,13 +89,13 @@ namespace General {
 
 		// Default constructor, copy constructor, rebinding constructor, and destructor.
 		// Empty for stateless allocators.
-		aligned_allocator () { }
+		aligned_allocator() { }
 
-		aligned_allocator (const aligned_allocator&) { }
+		aligned_allocator(const aligned_allocator&) { }
 
 		template <typename U> aligned_allocator (const aligned_allocator<U, Alignment>&) { }
 
-		~aligned_allocator () { }
+		~aligned_allocator() { }
 
 
 		// The following will be different for each allocator.
@@ -113,7 +114,7 @@ namespace General {
 			// All allocators should contain an integer overflow check.
 			// The Standardization Committee recommends that std::length_error
 			// be thrown in the case of integer overflow.
-			if (n > max_size ())
+			if (n > max_size())
 			{
 				throw std::length_error ("aligned_allocator<T>::allocate() - Integer overflow.");
 			}
@@ -124,7 +125,7 @@ namespace General {
 			// Allocators should throw std::bad_alloc in the case of memory allocation failure.
 			if (pv == NULL)
 			{
-				throw std::bad_alloc ();
+				throw std::bad_alloc();
 			}
 
 			return static_cast<T *>(pv);
@@ -161,5 +162,3 @@ namespace General {
 
 }	// end namespace General
 }	// end namespace ob
-
-#endif   // __ob_Memory__
