@@ -12,6 +12,8 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
 
 (Example based on JUCE::AudioProcessor)
 
+- Add all files from here to your project in the Projucer
+- Uncheck the 'Compile' toggle button for the HIIR_Amalgam.cpp file
 - Instantiate class as a private member variable in an AudioProcessor
 - Call prepare() from AudioProcessor::prepareToPlay()
 - In AudioProcessor::processBlock():

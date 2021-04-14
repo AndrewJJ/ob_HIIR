@@ -28,12 +28,11 @@
 */
 /*============================================================================*/
 
-#ifndef __Oblique_HIIR__
-#define __Oblique_HIIR__
-
 /** 
 	@file ob_HIIR.h
 */
+
+#pragma once
 
 // HIIR Library
 #if JUCE_MSVC
@@ -63,17 +62,19 @@ namespace DSP {
 
 	### Usage
 	(Example based on JUCE::AudioProcessor)
+    - Add all files from here to your project in the Projucer
+    - Uncheck the 'Compile' toggle button for the HIIR_Amalgam.cpp file
 	- Instantiate class as a private member variable in an AudioProcessor
 	- Call prepare() from AudioProcessor::prepareToPlay()
 	- In AudioProcessor::processBlock():
 		- Call setSize() to handle the case where the block size has changed since prepare() was called
 		- Call upSample() as required
-		- Access oversampled data using getOversampledData()
+		- Access oversampled data using getOverSampledData()
 		- Call downSample() as required
+	- If compiling with an architecture that does not support SSE2, then #define OB_SSE_NOT_SUPPORTED 1
 
 	### Notes
-	- The class manages all the filter stages and state data internally. Please note that the state is re-initialised each time prepare() is called
-												 
+	- The class manages all the filter stages and state data internally. Please note that the state is re-initialised each time prepare() is called.
 	- The number of channels can be altered at each call to prepare()
 	- The first stage filter is a polyphase IIR with 13 coefficients and a transition bandwidth of 0.01*Fs and 113.4dB of attenuation (110dB specified in design)
     - Subsequent filter stages have 4 coefficients and a transition bandwidth of 0.255*Fs and 118.5dB of attenuation (110dB specified in design)
@@ -411,69 +412,69 @@ public:
 
 	/** Get pointer to audio block for a single channel of oversampled data.
 	 */
-	float* getOverSampledData ( const int channelNumber	/**< Channel number (zero indexed). */ );
+	float* getOverSampledData (const int channelNumber	/**< Channel number (zero indexed). */ );
 
 	/** Returns the oversampling factor.
 	 */
-	int getOSFactor () const;
+	int getOSFactor() const;
 
 	/** Returns the buffer size expected for upsampling from or downsampling to, i.e. the original block size
 	 *  specified when prepare() was called (units are samples).
 	 */
-	int getSize () const;
+	int getSize() const;
 	
 	/** Returns the size of buffers at the oversampled stage (units are samples).
 	 */
-	int getOversampledSize () const;
+	int getOversampledSize() const;
 
 	/** Used in AudioProcessor::prepareToPlay() to set the size of the buffers based on the audio
 	 *  block size.  
-	 *  Note that memory isn't deallocated if the current buffer size is reduced. Naturally
+	 *  Note that memory isn't de-allocated if the current buffer size is reduced. Naturally
 	 *  there would be a potentially nasty performance hit for processBlock() if a reallocation
 	 *  is triggered due to an increased block size since prepare() was called. If this is found
-	 *  to occur then it is recommended that prepare() be recoded to overdimension the buffers 
+	 *  to occur then it is recommended that prepare() be recoded to over-dimension the buffers 
 	 *  sufficiently.
 	 */
-	void setSize ( const int size		/**< Size of audio block in samples (i.e. number of samples in the
+	void setSize (const int size		/**< Size of audio block in samples (i.e. number of samples in the
 										 *   the buffer passed to AudioProcessor::processBlock(). */
 				 );
 
-	/** Returns number of channels defined when prepare() was last called.
+    /** Returns number of channels defined when prepare() was last called.
 	 */
-	int getNumChannels () const;
+	int getNumChannels() const;
 
 	/** Returns number of samples group delay for the end to end filtering chain. This is
 	 *  dependent on the current oversampling factor and can be used to calculate delay compensation.
 	 */
-	double getGroupDelaySamples () const;
+	double getGroupDelaySamples() const;
 
 	/** Returns number of samples group delay for the end to end filtering chain. This is
 	*  dependent on the current oversampling factor and can be used to calculate delay compensation.
 	*/
-	int getGroupDelayIntSamples () const;
+	int getGroupDelayIntSamples() const;
 
 	/** Returns true if the oversampling factor is a power of 2. */
-	static bool validateOversamplingFactor ( const int oversamplingFactor );
+	static bool validateOversamplingFactor (const int oversamplingFactor);
 
 
-	// Protected rather than private so that we can run unit tests on these methods from a derived class
+// Protected rather than private so that we can run unit tests on these methods from a derived class
 protected:
-	int		numStages;
+	int numStages;
 	/** Calculates the number of stages required to achieve the specified oversampling factor. */
-	int calcNumStages ( const int oversamplingFactor ) const;
+	int calcNumStages (const int oversamplingFactor) const;
 
 	// An Nth Stage Index is required so we know where to find the correct up/downsampler for a channel/stage
 	// combination. Note that the first stage is referenced as stage 1, and that the Nth Stage Index ignores
 	// the first/last stage as these have their own array of up/downsamplers (one element per channel).
-	int getNthStageIndex ( const int channelNum, const int stageNum ) const;
+	int getNthStageIndex (const int channelNum, const int stageNum) const;
 
 	// A Stage Buffer Index is required so we know where to find the correct buffer for a channel/stage
-	// combination. This is used for referencing the StageBuffers array. Note that the first stage is stage 1, not 0.
+	// combination. This is used for referencing the stageBuffers array. Note that the first stage is stage 1, not 0.
 	int maxStageBufferIndex;
-	int getStageBufferIndex ( const int channelNum, const int stageNum ) const;
-	int getStageNumFromStageBufferIndex ( const int StageBufferIndex ) const;
-	int getPeakStageBufferSize ( const int stageNum ) const;
-	int getCurrentStageBufferSize ( const int stageNum ) const;
+	int getStageBufferIndex (const int channelNum, const int stageNum) const;
+	int getStageNumFromStageBufferIndex (const int StageBufferIndex) const;
+	int getPeakStageBufferSize (const int stageNum) const;
+	int getCurrentStageBufferSize (const int stageNum) const;
 
 private:
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HIIR)
@@ -520,20 +521,20 @@ private:
 	// This multidimensional array holds all the stage buffers (i.e. the buffers which hold the audio
 	// data at each up/down sampling stage. The number of array elements depends on number of channels
 	// AND the number of stages AND bufferSize
-	OwnedArray <General::AlignedDataArray <float, 16>> StageBuffers;
+	OwnedArray <General::AlignedDataArray <float, 16>> stageBuffers;
 
-	/** Zero all stage buffers (without changing size/number of channels). This is taken care of by prepare(),
-	 *  so shouldn't need to be called by the user. */
+    /** Zero all stage buffers (without changing size/number of channels). This is taken care of by prepare(),
+	 *  so should not need to be called by the user. */
 	void zeroStageBuffers();
-	
-	// Set each sample of buffer to zero - only called by zeroStageBuffers() in prepare(), so not performance critical
-	void zero( float* buffer, const int numSamples );
-	
-	// Copy source buffer into destination buffer (buffers may overlap)
-	void copy( float* destination, float* source, const int numSamples );
+
+	/** Clear all filters within the up/down samplers (without changing size/number of channels).
+	 * This is taken care of by prepare(), so should not need to be called by the user. */
+    void clearFilters();
+
+	/** Set coefficients for the up/down samplers. This is taken care of by prepare(),
+	 * so should not need to be called by the user. */
+    void setCoefficients();
 };
 
 } // end namespace DSP
 } // end namespace ob
-
-#endif //__Oblique_HIIR__
