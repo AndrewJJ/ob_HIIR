@@ -282,7 +282,7 @@ void HIIR::zeroStageBuffers()
 {
 	jassert (stageBuffers.size() == maxStageBufferIndex + 1);	// Check that buffers have been previously allocated
 	for (auto sbi = 0; sbi <= maxStageBufferIndex; ++sbi)
-		zero (StageBuffers[sbi]->getData(), getPeakStageBufferSize (getStageNumFromStageBufferIndex (sbi)));
+		zero (stageBuffers[sbi]->getData(), getPeakStageBufferSize (getStageNumFromStageBufferIndex (sbi)));
 }
 void HIIR::clearFilters()
 {

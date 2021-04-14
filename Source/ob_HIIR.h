@@ -534,6 +534,13 @@ private:
 	/** Set coefficients for the up/down samplers. This is taken care of by prepare(),
 	 * so should not need to be called by the user. */
     void setCoefficients();
+	
+	// Set each sample of buffer to zero - only called by zeroStageBuffers() in prepare(), so not performance critical
+	void zero (float* buffer, const int numSamples);
+	
+	// Copy source buffer into destination buffer (buffers may overlap)
+	void copy (float* destination, float* source, const int numSamples);
+	
 };
 
 } // end namespace DSP
