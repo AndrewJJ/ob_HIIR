@@ -621,8 +621,9 @@ Throws: Nothing
 template <int NC>
 void	Downsampler2xFpu <NC>::process_sample_split (float &low, float &high, const float in_ptr [2])
 {
-	assert (&low != 0);
-	assert (&high != 0);
+	// Remove assertions which have caused issues for some users
+    //assert (&low != 0);
+	//assert (&high != 0);
 	assert (in_ptr != 0);
 
 	float				spl_0 = in_ptr [1];
@@ -2675,8 +2676,9 @@ Throws: Nothing
 template <int NC>
 void	Upsampler2xSse <NC>::process_sample (float &out_0, float &out_1, float input)
 {
-	assert (&out_0 != 0);
-	assert (&out_1 != 0);
+	// Remove assertions which have caused issues for some users
+	//assert (&out_0 != 0);
+	//assert (&out_1 != 0);
 
 	const __m128	spl_in = _mm_load_ss (&input);
 	const __m128	spl_mid = _mm_load_ps (_filter [NBR_STAGES]._mem);

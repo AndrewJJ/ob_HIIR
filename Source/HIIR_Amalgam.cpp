@@ -98,7 +98,8 @@ Throws: Nothing
 
 int	PolyphaseIir2Designer::compute_coefs (double coef_arr [], double attenuation, double transition)
 {
-	assert (&coef_arr != 0);
+	// Remove assertion which has caused issues for some users
+    //assert (&coef_arr != 0);
 	assert (attenuation > 0);
 	assert (transition > 0);
 	assert (transition < 0.5);
@@ -139,7 +140,8 @@ Throws: Nothing
 
 void	PolyphaseIir2Designer::compute_coefs_spec_order_tbw (double coef_arr [], int nbr_coefs, double transition)
 {
-	assert (&coef_arr != 0);
+	// Remove assertion which has caused issues for some users
+    //assert (&coef_arr != 0);
 	assert (nbr_coefs > 0);
 	assert (transition > 0);
 	assert (transition < 0.5);
@@ -162,8 +164,9 @@ void	PolyphaseIir2Designer::compute_coefs_spec_order_tbw (double coef_arr [], in
 
 void	PolyphaseIir2Designer::compute_transition_param (double &k, double &q, double transition)
 {
-	assert (&k != 0);
-	assert (&q != 0);
+	// Remove assertions which have caused issues for some users
+    //assert (&k != 0);
+	//assert (&q != 0);
 	assert (transition > 0);
 	assert (transition < 0.5);
 
