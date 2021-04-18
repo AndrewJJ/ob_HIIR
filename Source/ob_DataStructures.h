@@ -1,6 +1,3 @@
-#ifndef __ob_DataStructures__
-#define __ob_DataStructures__
-
 /** 
 	@file ob_DataStructures.h
 */
@@ -344,5 +341,3 @@ namespace General {
 
 }	// end namespace General
 }	// end namespace ob
-
-#endif   // __ob_DataStructures__
