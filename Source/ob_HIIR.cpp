@@ -66,7 +66,7 @@ void HIIR::prepare (const int oversamplingFactor, const int numberOfChannels, co
 	if (!coeffsInitialised) initCoeffs();
 
 	// Only reallocate stuff if necessary
-	if (numChannels!=numberOfChannels || osFactor!=oversamplingFactor)
+	if (!prepared || numChannels!=numberOfChannels || osFactor!=oversamplingFactor)
 	{
 		numChannels = numberOfChannels;
 		osFactor = oversamplingFactor;
@@ -150,6 +150,9 @@ void HIIR::setupOversampledChannelArray()
 }
 void HIIR::upSample (const juce::AudioSampleBuffer& inBuffer)
 {
+	jassert (prepared);
+	if (!prepared) return;
+
 	jassert (inBuffer.getNumChannels()==numChannels);
     for (auto ch = 0; ch < numChannels; ++ch)
     {
@@ -159,6 +162,7 @@ void HIIR::upSample (const juce::AudioSampleBuffer& inBuffer)
 void HIIR::upSample (const int channelNumber, const float* in)
 {
 	jassert (prepared);
+	if (!prepared) return;
 
 	if (numStages == 0)
 		copy (	stageBuffers[getStageBufferIndex (channelNumber, 0)]->getData(),
@@ -185,6 +189,9 @@ void HIIR::upSample (const int channelNumber, const float* in)
 }
 void HIIR::downSample (juce::AudioSampleBuffer& outBuffer)
 {
+	jassert (prepared);
+	if (!prepared) return;
+
 	jassert (outBuffer.getNumChannels() == numChannels);
     for (auto ch = 0; ch < numChannels; ++ch)
     {
@@ -194,6 +201,8 @@ void HIIR::downSample (juce::AudioSampleBuffer& outBuffer)
 void HIIR::downSample (const int channelNumber, float* out)
 {
 	jassert (prepared);
+	if (!prepared) return;
+
 	if (numStages == 0)
 		copy (out, stageBuffers[getStageBufferIndex (channelNumber, 0)]->getData (), currentBufferSize);
 	else if (numStages == 1)
