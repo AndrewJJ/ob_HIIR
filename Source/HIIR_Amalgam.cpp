@@ -1,5 +1,3 @@
-
-/*** Start of inlined file: PolyphaseIir2Designer.cpp ***/
 #if defined (_MSC_VER)
 	#pragma warning (1 : 4130) // "'operator' : logical operation on address of string constant"
 	#pragma warning (1 : 4223) // "nonstandard extension used : non-lvalue array converted to pointer"
@@ -10,16 +8,11 @@
 	#pragma warning (4 : 4355) // "'this' : used in base member initializer list"
 #endif
 
-/*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-
 #include	<cassert>
 #include	<cmath>
 
 namespace hiir
 {
-
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
@@ -158,10 +151,6 @@ void	PolyphaseIir2Designer::compute_coefs_spec_order_tbw (double coef_arr [], in
 	}
 }
 
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
 void	PolyphaseIir2Designer::compute_transition_param (double &k, double &q, double transition)
 {
 	// Remove assertions which have caused issues for some users
@@ -293,8 +282,3 @@ double	PolyphaseIir2Designer::compute_acc_den (double q, int order, int c)
 }
 
 }	// namespace hiir
-
-/*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*** End of inlined file: PolyphaseIir2Designer.cpp ***/
-
