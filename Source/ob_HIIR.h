@@ -47,10 +47,8 @@
 #endif
 
 #include "ob_Memory.h"
-#include "ob_DataStructures.h"
 
 namespace ob {
-namespace DSP {
 
 #if JUCE_CLANG
 #pragma clang diagnostic push
@@ -486,7 +484,7 @@ private:
 	int		currentBufferSize;
 	int		numChannels;
 	int		osFactor;
-	General::DataArray <float*> oversampledChannelArray;	// Holds pointers to channel array for oversampled data
+	DataArray <float*> oversampledChannelArray;	// Holds pointers to channel array for oversampled data
 
 	bool	coeffsInitialised;
 	double	coeffsFirstStage[13];
@@ -496,11 +494,11 @@ private:
 	void initCoeffs();
 
 	// Number of array elements depends on number of channels
-    std::vector < hiir::Upsampler2x<13>,   General::auto_sse_allocator < hiir::Upsampler2x<13> > >    firstStageUpsamplers;
-    std::vector < hiir::Downsampler2x<13>, General::auto_sse_allocator < hiir::Downsampler2x<13> > >  lastStageDownsamplers;
+    std::vector < hiir::Upsampler2x<13>,   auto_sse_allocator < hiir::Upsampler2x<13> > >    firstStageUpsamplers;
+    std::vector < hiir::Downsampler2x<13>, auto_sse_allocator < hiir::Downsampler2x<13> > >  lastStageDownsamplers;
 	// Number of array elements depends on number of channels AND number of stages
-    std::vector < hiir::Upsampler2x<4>,   General::auto_sse_allocator < hiir::Upsampler2x<4> > >      nthStageUpsamplers;
-    std::vector < hiir::Downsampler2x<4>, General::auto_sse_allocator < hiir::Downsampler2x<4> > >    nthStageDownsamplers;
+    std::vector < hiir::Upsampler2x<4>,   auto_sse_allocator < hiir::Upsampler2x<4> > >      nthStageUpsamplers;
+    std::vector < hiir::Downsampler2x<4>, auto_sse_allocator < hiir::Downsampler2x<4> > >    nthStageDownsamplers;
 
 	/** Allocates the arrays of resampling filters. */
 	void allocateResamplers();
@@ -514,7 +512,7 @@ private:
 	// This multidimensional array holds all the stage buffers (i.e. the buffers which hold the audio
 	// data at each up/down sampling stage. The number of array elements depends on number of channels
 	// AND the number of stages AND bufferSize
-    juce::OwnedArray <General::AlignedDataArray <float, 16>> stageBuffers;
+    juce::OwnedArray <AlignedDataArray <float, 16>> stageBuffers;
 
     /** Zero all stage buffers (without changing size/number of channels). This is taken care of by prepare(),
 	 *  so should not need to be called by the user. */
@@ -536,5 +534,4 @@ private:
 	
 };
 
-} // end namespace DSP
 } // end namespace ob

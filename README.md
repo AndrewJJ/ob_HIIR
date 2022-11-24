@@ -16,7 +16,7 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
 - Uncheck the 'Compile' toggle button for the HIIR_Amalgam.cpp file
 - Instantiate class as a private member variable in an AudioProcessor
 	- Remember to #include "ob_HIIR.h"
-	- Note that the HIIR class is defined within the ob::DSP namespace
+	- Note that the HIIR class is defined within the ob namespace
 - Call prepare() from AudioProcessor::prepareToPlay()
 - In AudioProcessor::processBlock():
   - Call setSize() to handle the case where the block size has changed since prepare() was called

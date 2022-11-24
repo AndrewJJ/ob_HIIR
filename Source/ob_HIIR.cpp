@@ -36,7 +36,6 @@
 #include "HIIR_Amalgam.cpp"
 
 namespace ob {
-namespace DSP {
 
 HIIR::HIIR()
     : numStages(0),
@@ -257,7 +256,7 @@ void HIIR::setSize (const int size)
 			for (auto sbi = 0; sbi <= maxStageBufferIndex; ++sbi)
 			{
 				const auto stageLength = getPeakStageBufferSize (getStageNumFromStageBufferIndex (sbi));
-				stageBuffers.add (new General::AlignedDataArray <float, 16> (stageLength));
+				stageBuffers.add (new AlignedDataArray <float, 16> (stageLength));
 			}
 		}
 		else
@@ -386,5 +385,4 @@ void HIIR::copy (float* destination, float* source, const int numSamples)
 	memmove (destination, source, static_cast<size_t> (numSamples) * sizeof (float));
 }
 
-} // end namespace DSP
 } // end namespace ob
