@@ -22,7 +22,7 @@ namespace General {
 		/** Constructor. */
 		DataArray ()
 		{
-			data = HeapBlock<ElementType> ();
+			data = juce::HeapBlock<ElementType> ();
 			// Set negative so assertions fail if an attempt is made to access elements prior to setSize() being called
 			mySize = -1;
 		}
@@ -32,7 +32,7 @@ namespace General {
                             const bool initialiseToZero = false		/**< Set this to initialise elements to zero (initialises to false if T is bool). */
                            )
 		{
-			data = HeapBlock<ElementType> ();
+			data = juce::HeapBlock<ElementType> ();
 			setSize (size, initialiseToZero);
 		}
 
@@ -61,28 +61,28 @@ namespace General {
 		/** Accesses an array item. */
 		ElementType& operator[] (const int index							/**< Index of the item to be accessed. */)
 		{
-			jassert (isPositiveAndBelow (index, mySize));
+			jassert (juce::isPositiveAndBelow (index, mySize));
 			return data[index];
 		}
 		
 		/** Accesses an array item (const version). */
 		ElementType& operator[] (const int index							/**< Index of the item to be accessed. */) const
 		{
-			jassert (isPositiveAndBelow (index, mySize));
+			jassert (juce::isPositiveAndBelow (index, mySize));
 			return data[index];
 		}
 
 		/** Accesses an array item. */
 		ElementType& getItem (const int index								/**< Index of the item to be accessed. */)
 		{
-			jassert (isPositiveAndBelow (index, mySize));
+			jassert (juce::isPositiveAndBelow (index, mySize));
 			return data[index];
 		}
 
 		/** Accesses an array item (const version). */
 		ElementType& getItem (const int index								/**< Index of the item to be accessed. */) const
 		{
-			jassert (isPositiveAndBelow (index, mySize));
+			jassert (juce::isPositiveAndBelow (index, mySize));
 			return data[index];
 		}
 
@@ -93,7 +93,7 @@ namespace General {
 		}
 
 	private:
-		HeapBlock<ElementType> data;
+		juce::HeapBlock<ElementType> data;
 		int mySize;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DataArray)
 	};
@@ -135,14 +135,14 @@ namespace General {
 		/** Accesses an array item. */
 		ElementType& operator[] (const int index							/**< Index of the item to be accessed. */)
 		{
-			jassert (isPositiveAndBelow (index, myLength));
+			jassert (juce::isPositiveAndBelow (index, myLength));
 			return data[index];
 		}
 
 		/** Accesses an array item. */
 		ElementType& getItem (const int index								/**< Index of the item to be accessed. */)
 		{
-			jassert (isPositiveAndBelow (index, myLength));
+			jassert (juce::isPositiveAndBelow (index, myLength));
 			return data[index];
 		}
 
@@ -249,14 +249,14 @@ namespace General {
 		/** Returns a pointer to the specified row. */
 		ElementType* operator[] (const int index		/**< Index of row. */) const
 		{
-			jassert (myNumRows > 0 && isPositiveAndBelow(index, myNumRows));
+			jassert (myNumRows > 0 && juce::isPositiveAndBelow(index, myNumRows));
 			return data[index];
 		}
 
 		/** Returns a pointer to the specified row. */
 		ElementType* getRow (const int index		/**< Index of row. */)
 		{
-			jassert (myNumRows > 0 && isPositiveAndBelow (index, myNumRows));
+			jassert (myNumRows > 0 && juce::isPositiveAndBelow (index, myNumRows));
 			return data[index];
 		}
 

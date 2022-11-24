@@ -389,7 +389,7 @@ public:
 	
 	/** Perform upsampling on an AudioBuffer.
 	 */
-	void upSample   (	const AudioSampleBuffer& inBuffer		/**< Sample buffer to be upsampled, will not be modified. */
+	void upSample   (	const juce::AudioSampleBuffer& inBuffer		/**< Sample buffer to be upsampled, will not be modified. */
 					);
 
 	/** Perform upsampling on a block of audio data for a single channel.
@@ -400,7 +400,7 @@ public:
 
 	/** Perform downsampling into an AudioBuffer.
 	 */
-	void downSample (	AudioSampleBuffer& outBuffer			/**< Sample buffer to write downsampled data into. */
+	void downSample (juce::AudioSampleBuffer& outBuffer			/**< Sample buffer to write downsampled data into. */
 					);
 
 	/** Perform downsampling into a block of audio data for a single channel.
@@ -524,7 +524,7 @@ private:
 	// This multidimensional array holds all the stage buffers (i.e. the buffers which hold the audio
 	// data at each up/down sampling stage. The number of array elements depends on number of channels
 	// AND the number of stages AND bufferSize
-	OwnedArray <General::AlignedDataArray <float, 16>> stageBuffers;
+    juce::OwnedArray <General::AlignedDataArray <float, 16>> stageBuffers;
 
     /** Zero all stage buffers (without changing size/number of channels). This is taken care of by prepare(),
 	 *  so should not need to be called by the user. */

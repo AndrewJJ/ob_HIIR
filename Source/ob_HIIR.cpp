@@ -148,7 +148,7 @@ void HIIR::setupOversampledChannelArray()
 		oversampledChannelArray[ch] = stageBuffers[sbi]->getData ();
 	}
 }
-void HIIR::upSample (const AudioSampleBuffer& inBuffer)
+void HIIR::upSample (const juce::AudioSampleBuffer& inBuffer)
 {
 	jassert (inBuffer.getNumChannels()==numChannels);
     for (auto ch = 0; ch < numChannels; ++ch)
@@ -183,7 +183,7 @@ void HIIR::upSample (const int channelNumber, const float* in)
 		}
 	}
 }
-void HIIR::downSample (AudioSampleBuffer& outBuffer)
+void HIIR::downSample (juce::AudioSampleBuffer& outBuffer)
 {
 	jassert (outBuffer.getNumChannels() == numChannels);
     for (auto ch = 0; ch < numChannels; ++ch)
@@ -283,7 +283,7 @@ double HIIR::getGroupDelaySamples () const
 int HIIR::getGroupDelayIntSamples () const
 {
 	// TODO - is rounding good enough, or do should I tweak it and use a switch statement
-	return roundToIntAccurate (getGroupDelaySamples ());
+	return juce::roundToIntAccurate (getGroupDelaySamples ());
 }
 void HIIR::zeroStageBuffers()
 {
