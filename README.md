@@ -23,7 +23,6 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
   - Call upSample() as required
   - Access oversampled data using getOversampledData()
   - Call downSample() as required
-- If compiling with an architecture that does not support SSE2, then #define OB_SSE_NOT_SUPPORTED 1
 
 ## Notes
 
@@ -33,6 +32,7 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
 - Subsequent filter stages have 4 coefficients and a transition bandwidth of 0.255*Fs and 118.5dB of attenuation (110dB specified in design)
 - The above parameters have been chosen according to the taste of Oblique Audio, if you want to design the filters differently then use different parameters in HIIR::initCoeffs() in ob_HIIR.cpp and adjust the coefficent and vector definitions in ob_HIIR.h.
 - Oversampling factors must be a power of 2
+- JUCE_USE_SSE_INTRINSICS is used to automatically choose either SSE or FPU based code paths
 - Float arrays should be 16 byte aligned for most efficient SSE processing
 
 

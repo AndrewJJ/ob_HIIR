@@ -6,9 +6,6 @@
 
 #include "JuceHeader.h"
 #include <atomic>
-#ifdef JUCE_CLANG
-#include <mm_malloc.h>
-#endif
 
 namespace ob {
 namespace General {
@@ -158,7 +155,7 @@ namespace General {
 		{
 			jassert (length > 0);
 			clear ();
-			#ifndef OB_SSE_NOT_SUPPORTED
+			#if JUCE_USE_SSE_INTRINSICS
 			data = reinterpret_cast<ElementType*>(_mm_malloc (length*sizeof (ElementType), alignment));
 			#else
 			data = reinterpret_cast<ElementType*>(malloc (length*sizeof (ElementType)));
@@ -199,7 +196,7 @@ namespace General {
 		void clear ()
 		{
 			if (data != nullptr)
-				#ifndef OB_SSE_NOT_SUPPORTED
+				#if JUCE_USE_SSE_INTRINSICS
 				_mm_free (data);
 				#else
 				free (data);
@@ -287,7 +284,7 @@ namespace General {
 				myLength = length;
 				data = new ElementType*[myNumRows];
 				for (int row = 0; row < myNumRows; ++row)
-					#ifndef OB_SSE_NOT_SUPPORTED
+					#if JUCE_USE_SSE_INTRINSICS
 					data[row] = reinterpret_cast<ElementType*>(_mm_malloc (length*sizeof (ElementType), alignment));
 					#else
 					data[row] = reinterpret_cast<ElementType*>(malloc (length*sizeof (ElementType)));
@@ -323,7 +320,7 @@ namespace General {
 		{
 			if (myNumRows>0)
 				for (int row = 0; row < myNumRows; ++row)
-					#ifndef OB_SSE_NOT_SUPPORTED
+					#if JUCE_USE_SSE_INTRINSICS
 					_mm_free (data[row]);
 					#else
 					free (data[row]);

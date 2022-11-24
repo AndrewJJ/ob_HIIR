@@ -9,6 +9,8 @@
 namespace ob {
 namespace General {
 
+#if JUCE_USE_SSE_INTRINSICS
+
 #if JUCE_MSVC
 #pragma warning (push)
 #pragma warning (disable: 4100) // unreferenced formal parameter warning
@@ -159,6 +161,18 @@ namespace General {
 #if JUCE_MSVC
 #pragma warning (pop)
 #endif
+
+    // We use the following alias to return an allocator which aligns on 16 byte boundary if SSE is being used
+    template <typename T>
+    using auto_sse_allocator = aligned_allocator <T, 16>;
+
+#else // JUCE_USE_SSE_INTRINSICS
+
+    // If SSE isn't being used, a standard allocator is returned instead
+    template <typename T>
+    using auto_sse_allocator = std::allocator <T>;
+
+#endif // JUCE_USE_SSE_INTRINSICS
 
 }	// end namespace General
 }	// end namespace ob

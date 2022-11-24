@@ -71,7 +71,6 @@ namespace DSP {
 		- Call upSample() as required
 		- Access oversampled data using getOverSampledData()
 		- Call downSample() as required
-	- If compiling with an architecture that does not support SSE2, then #define OB_SSE_NOT_SUPPORTED 1
 
 	### Notes
 	- The class manages all the filter stages and state data internally. Please note that the state is re-initialised each time prepare() is called.
@@ -496,21 +495,12 @@ private:
 	/** Initialises coefficients for 1st and Nth stage IIR filters. */
 	void initCoeffs();
 
-#ifndef OB_SSE_NOT_SUPPORTED // i.e. if SSE is supported
 	// Number of array elements depends on number of channels
-	std::vector < hiir::Upsampler2xSse<13>,	  General::aligned_allocator < hiir::Upsampler2xSse<13>,   16 > >	firstStageUpsamplers;
-	std::vector < hiir::Downsampler2xSse<13>, General::aligned_allocator < hiir::Downsampler2xSse<13>, 16 > >	lastStageDownsamplers;
+    std::vector < hiir::Upsampler2x<13>,   General::auto_sse_allocator < hiir::Upsampler2x<13> > >    firstStageUpsamplers;
+    std::vector < hiir::Downsampler2x<13>, General::auto_sse_allocator < hiir::Downsampler2x<13> > >  lastStageDownsamplers;
 	// Number of array elements depends on number of channels AND number of stages
-	std::vector < hiir::Upsampler2xSse<4>,   General::aligned_allocator < hiir::Upsampler2xSse<4>,   16 > >		nthStageUpsamplers;
-	std::vector < hiir::Downsampler2xSse<4>, General::aligned_allocator < hiir::Downsampler2xSse<4>, 16 > >		nthStageDownsamplers;
-#else
-	// Number of array elements depends on number of channels
-	std::vector < hiir::Upsampler2xFpu<13>   >		firstStageUpsamplers;
-	std::vector < hiir::Downsampler2xFpu<13> >		lastStageDownsamplers;
-	// Number of array elements depends on number of channels AND number of stages
-	std::vector < hiir::Upsampler2xFpu<4>   >		nthStageUpsamplers;
-	std::vector < hiir::Downsampler2xFpu<4> >		nthStageDownsamplers; 
-#endif
+    std::vector < hiir::Upsampler2x<4>,   General::auto_sse_allocator < hiir::Upsampler2x<4> > >      nthStageUpsamplers;
+    std::vector < hiir::Downsampler2x<4>, General::auto_sse_allocator < hiir::Downsampler2x<4> > >    nthStageDownsamplers;
 
 	/** Allocates the arrays of resampling filters. */
 	void allocateResamplers();
