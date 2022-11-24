@@ -106,6 +106,13 @@ void HIIR::prepare (const double currentSampleRate, const int desiredSampleRate,
 	}
 	prepare (osFactor_, numberOfChannels, bufferSize);
 }
+void HIIR::release()
+{
+	prepared = false;
+	deleteResamplers();
+	stageBuffers.clear();
+	// We don't bother freeing the oversampled channel array as it's only a small array of pointers
+}
 void HIIR::initCoeffs()
 {
 	hiir::PolyphaseIir2Designer::compute_coefs_spec_order_tbw (coeffsFirstStage, 13, 0.01);

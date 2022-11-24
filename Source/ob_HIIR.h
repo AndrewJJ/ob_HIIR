@@ -383,6 +383,9 @@ public:
 					const int bufferSize				/**< Number of samples in original audio block being processed. */
 				  );
 
+	/** Releases allocated memory. prepare() must be called again before further use.
+	 */
+	void release();
 	
 	/** Perform upsampling on an AudioBuffer.
 	 */
