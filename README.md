@@ -35,7 +35,11 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
 - JUCE_USE_SSE_INTRINSICS is used to automatically choose either SSE or FPU based code paths
 - Float arrays should be 16 byte aligned for most efficient SSE processing
 
+## Changes to HIIR
 
+- HIIR source files are amalgamated into a .h & a .cpp file
+- Some comments are removed
+- Conditional compilation based on JUCE_USE_SSE_INTRINSICS to choouse either SSE or FPU code paths
 
 ## From the readme.txt for HIIR
 
