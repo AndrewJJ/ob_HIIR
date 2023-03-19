@@ -40,6 +40,7 @@ The ob_ prefix refers to the obLib library used internally by [Oblique Audio](ht
 - HIIR source files are amalgamated into a .h & a .cpp file
 - Some comments are removed
 - Conditional compilation based on JUCE_USE_SSE_INTRINSICS to choouse either SSE or FPU code paths
+- Some assertions commented out
 
 ## From the readme.txt for HIIR
 
